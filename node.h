@@ -7,8 +7,11 @@ class Node {
   Node();
   ~Node();
   char getData();
+  void setData(char newdata);
   Node* getLeft();
+  void setLeft(Node* newleft);
   Node* getRight();
+  void setRight(Node* newright);
  private:
   char data;
   Node* leftP;
