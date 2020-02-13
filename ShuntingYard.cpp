@@ -7,8 +7,8 @@
 
 using namespace std;
 
-void stack_peek(Node* head);
-Node* stack_pop(Node* head);
+void stack_peek(Node* head, int count);
+Node* stack_pop(Node* head, int count);
 void stack_push(Node* node, Node* head);
 void test(int testNum);
 
@@ -24,7 +24,8 @@ int main() {
     if(input[i] != ' ') {
 	  if(input[i] == '*' || input[i] == '-' || input[i] == '+' || input[i] == '/') {
 		  stackCurrentNode = new Node();
-		  stackCurrentNode->setData(input[1]);
+		  stackCurrentNode->setData(input[i]);
+		  cout << "currentNode right start: " << stackCurrentNode->getRight() << endl;
 		  if(stackHead == 0) {
 			  stackHead = stackCurrentNode;
 			  stackPreviousNode = stackHead;
@@ -32,12 +33,18 @@ int main() {
 		  }
 		  else if(nodeCount == 1) {
 		    stackHead->setRight(stackCurrentNode);
+		    stackCurrentNode->setLeft(stackHead);
+		    stackPreviousNode = stackCurrentNode;
+		    nodeCount++;
+		    stack_push(stackCurrentNode, stackHead);
 		  }
 		  else {
 			stackPreviousNode->setRight(stackCurrentNode);
 			stackCurrentNode->setLeft(stackPreviousNode);
 			stack_push(stackCurrentNode, stackHead);
 			stackPreviousNode = stackCurrentNode;
+			nodeCount++;
+			cout << "currentNode right end: " << stackCurrentNode->getRight() << endl;
 		  }
       
       }
@@ -46,27 +53,35 @@ int main() {
 	  }
     }
   }
-  stack_peek(stackHead);
+  stack_peek(stackHead, nodeCount);
   return 0;
 }
 
-void stack_peek(Node* head) {
+void stack_peek(Node* head, int count) {
   Node* peek;
-  peek = stack_pop(head);
+  peek = stack_pop(head, count);
   //char printData = peek->getData();
   cout << peek->getData() << endl;
   stack_push(peek, head);
 }
 
-Node* stack_pop(Node* head) {
-  bool loop = true;
+Node* stack_pop(Node* head, int count) {
   Node* leftP;
   Node* copy;
-  while(loop) {
+  for(int i = 0; i < count; i++){
+    test(1);
+    cout << "head data: " << head->getData() << endl;
+    cout << "head adress: " << head << endl;
     if(head->getRight() != 0) {
+      test(2);
+      cout << "head right: " << head->getRight() << endl;
       head = head->getRight();
+      cout << "head right2: " << head->getRight() << endl;
+						     cout << "head right data: " << head->getRight()->getData() << endl;
+														   cout << "i: " << i << endl;
     }
     else {
+      test(3);
       copy = head;
       leftP = head->getLeft();
       head = 0;
